@@ -1,180 +1,256 @@
-# HFRAT Backend
+# HFRAT Backend - Getting Started
 
-A Django REST Framework API for the Health Facility Resource Allocation Tool (HFRAT).
+## Purpose
 
-## Features
+The **Health Facility Resource Allocation Tool (HFRAT) Backend** is a Django REST API that manages healthcare facility resources, user authentication, and reporting. It supports three user roles:
 
-- JWT-based authentication
-- User roles (Admin, Monitor, Reporter)
-- Resource tracking and reporting
-- Dashboard analytics
-- CORS-enabled for frontend integration
+- **Admin**: Create users, manage facilities, view all data
+- **Monitor**: View dashboard with all facility reports
+- **Reporter**: Submit resource reports for their assigned facility
+
+The backend provides JWT-based authentication and exposes RESTful endpoints for frontend integration.
+
+---
 
 ## Requirements
 
-- Python 3.11+
-- pip
+- **Python**: 3.11 or higher
+- **pip**: Python package manager
 
-## Installation
+---
 
-1. Clone the repository
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/hfrat-backend.git
-   cd hfrat-backend
-   ```
+## Local Setup Instructions
 
-2. Create and activate virtual environment
-   ```bash
-   # Windows
-   python -m venv venv
-   venv\Scripts\activate
-   
-   # Mac/Linux
-   python -m venv venv
-   source venv/bin/activate
-   ```
+### Step 1: Clone or Extract the Project
 
-3. Install dependencies
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+# If from git
+git clone https://github.com/your-username/hfrat-backend.git
+cd hfrat-backend
 
-4. Run migrations
-   ```bash
-   python manage.py migrate
-   ```
+# If from zip
+unzip hfrat-backend.zip
+cd Project_7
+```
 
-5. Create test users (optional)
-   ```bash
-   python scripts/create_test_users.py
-   ```
+### Step 2: Create Virtual Environment
 
-6. Start development server
-   ```bash
-   python manage.py runserver
-   ```
+**Windows:**
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
 
-Server will be available at: `http://127.0.0.1:8000`
+**macOS/Linux:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-## API Endpoints
+### Step 3: Install Dependencies
 
-### Authentication
-- `POST /api/token/` - Login (get JWT token)
-- `POST /api/token/refresh/` - Refresh token
+```bash
+pip install -r requirements.txt
+```
 
-### General
-- `GET /api/health/` - Get current user info
+The required packages are:
+- Django 6.0
+- Django REST Framework 3.15
+- djangorestframework-simplejwt 5.3+
+- django-cors-headers 4.4+
 
-### Reporter Endpoints
-- `POST /api/reporter/report/` - Submit resource report
+### Step 4: Run Database Migrations
 
-### Monitor Endpoints
-- `GET /api/monitor/dashboard/` - Get dashboard data
+```bash
+python manage.py migrate
+```
 
-### Admin Endpoints
-- `POST /api/admin/users/` - Create new user
-- `GET /api/admin/users/list/` - List all users
-- `GET /api/admin/facilities/` - List facilities
+This creates the SQLite database (`db.sqlite3`) and sets up all tables.
 
-## Default Test Users
+### Step 5: Create Test Users (Optional)
 
-After running `create_test_users.py`:
+```bash
+python scripts/create_test_users.py
+```
+
+This creates three test users:
 - **Admin**: username=`admin`, password=`admin123`
 - **Monitor**: username=`monitor`, password=`monitor123`
 - **Reporter**: username=`reporter`, password=`reporter123`
 
-## Configuration
+### Step 6: Start the Development Server
 
-### CORS Setup
+```bash
+python manage.py runserver
+```
 
-Update `hfrat_backend/settings.py` to add your frontend URL:
+The server will start at: **http://127.0.0.1:8000**
+
+You should see:
+```
+Django version 6.0, using settings 'hfrat_backend.settings'
+Starting development server at http://127.0.0.1:8000/
+```
+
+---
+
+## Testing the API
+
+### Quick Health Check
+
+Open your browser or use curl:
+```bash
+curl http://127.0.0.1:8000/
+```
+
+Expected response:
+```json
+{"status": "HFRAT backend is running ✅"}
+```
+
+### Test Authentication
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/token/ \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "admin123"}'
+```
+
+Expected response:
+```json
+{
+  "access": "eyJ0eXAiOiJKV1QiLCJhbGc...",
+  "refresh": "eyJ0eXAiOiJKV1QiLCJhbGc..."
+}
+```
+
+---
+
+## CORS Configuration
+
+The backend is configured to accept requests from these origins:
+
+- `http://localhost:3000`
+- `http://127.0.0.1:3000`
+- `http://localhost:5173`
+- `http://127.0.0.1:5173`
+- `http://localhost:5174`
+- `http://127.0.0.1:5174`
+
+If your frontend runs on a different port, update `hfrat_backend/settings.py`:
 
 ```python
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "http://your-frontend-url",
+    "http://localhost:YOUR_PORT",
+    "http://127.0.0.1:YOUR_PORT",
 ]
 ```
 
-### Environment Variables
-
-Copy `.env.example` to `.env` and update values:
-
-```bash
-cp .env.example .env
-```
-
-## Database
-
-Uses SQLite by default. Database file: `db.sqlite3`
-
-To reset the database:
-```bash
-rm db.sqlite3
-python manage.py migrate
-python scripts/create_test_users.py
-```
+---
 
 ## Project Structure
 
 ```
 hfrat-backend/
-├── core/                    # Main app
-│   ├── models.py           # User and Facility models
-│   ├── serializers.py      # DRF serializers
-│   ├── views.py            # API views
+├── manage.py                 # Django CLI tool
+├── db.sqlite3               # SQLite database (created after migrate)
+├── requirements.txt         # Python dependencies
+├── backend_contract/        # 📁 THIS FOLDER - API documentation
+│   ├── README.md           # Setup guide (you are here)
+│   ├── API.md              # Complete API reference
+│   ├── models_overview.md  # Database models explained
+│   └── sample_responses.json  # Example API responses
+├── hfrat_backend/          # Django project configuration
+│   ├── settings.py         # Project settings (CORS, JWT, etc.)
+│   ├── urls.py             # Main URL routing
+│   └── wsgi.py             # WSGI entry point
+├── core/                   # Main application
+│   ├── models.py           # Database models (User, Facility, ResourceReport)
+│   ├── views.py            # API endpoints
+│   ├── serializers.py      # JSON serialization
 │   ├── urls.py             # API routes
-│   └── permissions.py      # Custom permissions
-├── hfrat_backend/          # Project settings
-│   ├── settings.py         # Django settings
-│   ├── urls.py             # Main URL routes
-│   └── wsgi.py             # WSGI config
-├── scripts/                # Utility scripts
-│   └── create_test_users.py
-└── manage.py               # Django CLI
+│   ├── permissions.py      # Role-based permissions
+│   └── migrations/         # Database schema history
+└── scripts/
+    └── create_test_users.py  # Test data setup
 ```
 
-## Technologies
+---
 
-- **Django** 6.0 - Web framework
-- **Django REST Framework** - REST API
-- **SimpleJWT** - JWT authentication
-- **django-cors-headers** - CORS support
-- **SQLite** - Database
+## Environment Configuration
 
-## Frontend Integration
+The backend uses these default settings for development:
 
-This backend is designed to work with any frontend that can make HTTP requests. 
+| Setting | Value |
+|---------|-------|
+| **DEBUG** | `True` |
+| **SECRET_KEY** | Default (change for production) |
+| **DATABASE** | SQLite (`db.sqlite3`) |
+| **JWT Access Token Lifetime** | 5 minutes |
+| **JWT Refresh Token Lifetime** | 1 day |
 
-Example setup with React/Vue:
-```javascript
-const API_URL = 'http://127.0.0.1:8000/api/';
+For production, update these in `hfrat_backend/settings.py` or use environment variables.
 
-// Login
-const response = await fetch(`${API_URL}token/`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password })
-});
-const { access } = await response.json();
+---
 
-// Authenticated request
-const data = await fetch(`${API_URL}health/`, {
-    headers: { 'Authorization': `Bearer ${access}` }
-});
+## Common Issues & Solutions
+
+### Issue: `ModuleNotFoundError: No module named 'corsheaders'`
+**Solution**: Install dependencies:
+```bash
+pip install -r requirements.txt
 ```
 
-## Development
+### Issue: `django.db.utils.OperationalError: no such table`
+**Solution**: Run migrations:
+```bash
+python manage.py migrate
+```
 
-For development, keep `DEBUG = True` in `settings.py`.
+### Issue: `Invalid credentials` when logging in
+**Solution**: Create test users:
+```bash
+python scripts/create_test_users.py
+```
 
-For production, set `DEBUG = False` and update `SECRET_KEY`.
+### Issue: Port 8000 already in use
+**Solution**: Run on different port:
+```bash
+python manage.py runserver 8001
+```
 
-## License
+---
 
-MIT
+## Next Steps
+
+1. ✅ Verify server is running: `http://127.0.0.1:8000/`
+2. ✅ Read the API documentation: `backend_contract/API.md`
+3. ✅ Review data models: `backend_contract/models_overview.md`
+4. ✅ Check example responses: `backend_contract/sample_responses.json`
+5. ✅ Test authentication with test users
+6. ✅ Build your frontend!
+
+---
 
 ## Support
 
-For issues and questions, please open an issue on GitHub.
+For questions or issues:
+- Check the API documentation in `backend_contract/API.md`
+- Review Django logs in the terminal where you ran `runserver`
+- Contact the backend maintainer
+
+---
+
+## Production Deployment
+
+⚠️ **This is a development server.** For production:
+
+1. Set `DEBUG = False` in settings.py
+2. Generate a new `SECRET_KEY`
+3. Use a production database (PostgreSQL, MySQL)
+4. Use a production WSGI server (Gunicorn, uWSGI)
+5. Set up proper HTTPS/SSL
+6. Configure proper CORS origins
+7. Set up static file serving
+
+See Django deployment documentation: https://docs.djangoproject.com/en/6.0/howto/deployment/
