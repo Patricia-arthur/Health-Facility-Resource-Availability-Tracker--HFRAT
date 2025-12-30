@@ -50,18 +50,18 @@ class ResourceReport(db.Model):
     )
 
     # Equipment & capacity
-    icu_beds_available = db.Column(db.Integer, nullable=False)
-    incubators = db.Column(db.Integer, nullable=False)
-    total_ventilators = db.Column(db.Integer, nullable=False)
-    anaesthesia_machines = db.Column(db.Integer, nullable=False)
-    defibrillators = db.Column(db.Integer, nullable=False)
-    ambulance = db.Column(db.Integer, nullable=False)
+    icu_beds_available = db.Column(db.Integer, nullable=True)
+    incubators = db.Column(db.Integer, nullable=True)
+    total_ventilators = db.Column(db.Integer, nullable=True)
+    anaesthesia_machines = db.Column(db.Integer, nullable=True)
+    defibrillators = db.Column(db.Integer, nullable=True)
+    ambulance = db.Column(db.Integer, nullable=True)
 
     # Staff on duty
-    surgeons = db.Column(db.Integer, nullable=False)
-    medical_doctors = db.Column(db.Integer, nullable=False)
-    nurses = db.Column(db.Integer, nullable=False)
-    midwives = db.Column(db.Integer, nullable=False)
+    surgeons = db.Column(db.Integer, nullable=True)
+    medical_doctors = db.Column(db.Integer, nullable=True)
+    nurses = db.Column(db.Integer, nullable=True)
+    midwives = db.Column(db.Integer, nullable=True)
 
     # Flexible resources
     blood_types_available = db.Column(JSON, nullable=True)

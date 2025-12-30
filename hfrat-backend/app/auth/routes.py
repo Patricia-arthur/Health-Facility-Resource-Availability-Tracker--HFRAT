@@ -6,10 +6,6 @@ from app.models import User
 
 auth_bp = Blueprint("auth", __name__)
 
-#@auth_bp.route("/login", methods=["GET"])
-#def login():
- #   return jsonify({"message": "Login endpoint reached"})
-
 
 @auth_bp.route("/register", methods=["POST"])
 def register():
@@ -39,7 +35,6 @@ def register():
     return jsonify({"message": "User registered"}), 201
 
 
-
 @auth_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
@@ -52,13 +47,13 @@ def login():
     if not user or not check_password_hash(user.password, password):
         return jsonify({"error": "Invalid credentials"}), 401
 
+    # ✅ CORRECT JWT CREATION
     token = create_access_token(
-    identity=str(user.id),   # MUST be a string
-    additional_claims={
-        "role": user.role
-    }
-)
-
+        identity=str(user.id),           # MUST be a string
+        additional_claims={
+            "role": user.role
+        }
+    )
 
     return jsonify({
         "access_token": token,
