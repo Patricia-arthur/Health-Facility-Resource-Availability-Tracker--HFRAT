@@ -1,6 +1,6 @@
 from .extensions import db
 from datetime import datetime
-from sglalchemy.dialects.sqlite import JSON
+from sqlalchemy.dialects.sqlite import JSON
 
 class HealthFacility(db.Model):
     __tablename__ = "health_facilities"
