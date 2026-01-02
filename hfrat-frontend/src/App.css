@@ -1,42 +1,123 @@
+/* RESET VITE DEMO STYLES */
 #root {
-  max-width: 1280px;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* GLOBAL APP LAYOUT */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* PAGE CONTENT */
+.page {
+  flex: 1;
+  padding: 2rem 4rem;
+}
+
+/* NAVBAR */
+.navbar {
+  height: 60px;
+  background: linear-gradient(to bottom, #1f1f1f, #181818);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  border-bottom: 1px solid #333;
+}
+
+.navbar .brand {
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.navbar .links {
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar button {
+  background: none;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.navbar button:hover {
+  background: #333;
+}
+
+/* DASHBOARD LAYOUT */
+.dashboard-container {
+  max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.page {
+  flex: 1;
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.page > * {
+  width: 100%;
+  max-width: 1400px;
 }
 
-.card {
-  padding: 2em;
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
-.read-the-docs {
-  color: #888;
+.facility-card {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 1.25rem;
+  transition: border 0.2s ease, transform 0.2s ease;
 }
+
+.facility-card:hover {
+  border-color: #555;
+  transform: translateY(-2px);
+}
+
+.facility-status {
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.status-NORMAL {
+  color: #4ade80;
+}
+
+.status-WARNING {
+  color: #facc15;
+}
+
+.status-CRITICAL {
+  color: #f87171;
+}
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+

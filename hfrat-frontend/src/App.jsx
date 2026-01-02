@@ -1,14 +1,24 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import ReporterForm from "./pages/ReporterForm";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/report" element={<ReporterForm />} />
-      <Route path="*" element={<Navigate to="/login" />} />
-    </Routes>
+    <div className="app">
+      <Navbar />
+
+      <main className="page">
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/report" element={<ReporterForm />} />
+        </Routes>
+      </main>
+    </div>
   );
 }
 
