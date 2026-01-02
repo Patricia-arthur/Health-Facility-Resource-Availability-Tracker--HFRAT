@@ -45,3 +45,4 @@ def submit_report():
     db.session.commit()
 
     return jsonify({"message": "Report submitted"}), 201
+
